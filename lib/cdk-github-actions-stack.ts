@@ -10,6 +10,11 @@ export class CdkGithubActionsStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
+    const repository = this.node.tryGetContext("repository");
+    if (!repository) {
+      throw new Error(`repository cannot be null`);
+    }
+
     const oidConnectProvider = new OpenIdConnectProvider(
       this,
       "github-actions",
@@ -20,9 +25,7 @@ export class CdkGithubActionsStack extends Stack {
       }
     );
 
-    const repository = this.node.tryGetContext("repository");
-
-    const githubActionsRole = new Role(this, "github-actions-backend", {
+    const githubActionsRole = new Role(this, "github-actions-role", {
       assumedBy: new FederatedPrincipal(
         oidConnectProvider.openIdConnectProviderArn,
         {

@@ -1,14 +1,15 @@
-# Welcome to your CDK TypeScript project
+# cdk-github-actions
 
-This is a blank project for CDK development with TypeScript.
+GitHub Actions を最小権限で動かすための IAM テンプレート
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+GitHub (OIDC IdP) → AssumeRole (github-actions role) → AssumeRole (CDK Toolkit Role)
 
-## Useful commands
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `cdk deploy`      deploy this stack to your default AWS account/region
-* `cdk diff`        compare deployed stack with current state
-* `cdk synth`       emits the synthesized CloudFormation template
+## デプロイ
+
+コンテキストで CDK の実行を許可するリポジトリを指定します
+例:
+
+```
+npm run cdk deploy -- -c repository=rz7d/cdk-github-actions
+```
